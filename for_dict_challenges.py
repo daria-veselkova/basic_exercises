@@ -1,23 +1,22 @@
+from collections import defaultdict, Counter
+
+
 def count_names(lst_of_dicts):
-    counted_names_dict = {}
+    counted_names_dict = defaultdict(int)
     for i in lst_of_dicts:
-        name = i['first_name']
-        if name in counted_names_dict:
-            counted_names_dict[name] += 1
-        else:
-            counted_names_dict[name] = 1
+        counted_names_dict[i['first_name']] += 1
 
     return counted_names_dict
 
 
 def find_most_frequent_name(counted_names_dict):
-    most_frequent_name = sorted(counted_names_dict.items(), key=lambda x: x[1], reverse=True)[0]
-    return most_frequent_name
+    most_frequent_name = Counter(counted_names_dict).most_common(1)
+    return most_frequent_name[0]
 
 
 def count_girls_and_boys(lst_of_dicts, is_male):
-    girls = 0
-    boys = 0
+    girls, boys = 0, 0
+    
     for student in lst_of_dicts['students']:
         name = student.get('first_name')
         if is_male[name]:
@@ -92,10 +91,10 @@ school_students = [
     ],
 ]
 
-for cls in school_students:
-    counted_names = count_names(cls)
+for indx, group in enumerate(school_students, start=1):
+    counted_names = count_names(group)
     the_most_frequent_name = find_most_frequent_name(counted_names)
-    print(f'Самое частое имя в классе {school_students.index(cls) + 1}: {the_most_frequent_name[0]}')
+    print(f'Самое частое имя в классе {indx}: {the_most_frequent_name[0]}')
 
 
 # Задание 4
@@ -118,9 +117,9 @@ is_male = {
     'Даша': False,
 }
 
-for cls in school:
-    genders = count_girls_and_boys(cls, is_male)
-    print(f'Класс {cls["class"]}: девочки {genders[0]}, мальчики {genders[1]}')
+for group in school:
+    genders = count_girls_and_boys(group, is_male)
+    print(f'Класс {group["class"]}: девочки {genders[0]}, мальчики {genders[1]}')
 
 
 # Задание 5
@@ -145,14 +144,14 @@ is_male = {
 max_girls_class = ['', 0]
 max_boys_class = ['', 0]
 
-for cls in school:
-    genders = count_girls_and_boys(cls, is_male)
+for group in school:
+    genders = count_girls_and_boys(group, is_male)
 
     if genders[0] > max_girls_class[1]:
-        max_girls_class = [cls['class'], genders[0]]
+        max_girls_class = [group['class'], genders[0]]
 
     if genders[1] > max_boys_class[1]:
-        max_boys_class = [cls['class'], genders[1]]
+        max_boys_class = [group['class'], genders[1]]
 
 print(f'Больше всего девочек в классе {max_girls_class[0]}')
 print(f'Больше всего мальчиков в классе {max_boys_class[0]}') 
