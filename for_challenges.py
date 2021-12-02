@@ -2,7 +2,8 @@
 # Необходимо вывести имена всех учеников из списка с новой строки
 
 names = ['Оля', 'Петя', 'Вася', 'Маша']
-# ???
+for name in names:
+    print(name)
 
 
 # Задание 2
@@ -12,7 +13,8 @@ names = ['Оля', 'Петя', 'Вася', 'Маша']
 # Петя: 4
 
 names = ['Оля', 'Петя', 'Вася', 'Маша']
-# ???
+for name in names:
+    print(f'{name}: {len(name)}')
 
 
 # Задание 3
@@ -25,7 +27,18 @@ is_male = {
     'Маша': False,
 }
 names = ['Оля', 'Петя', 'Вася', 'Маша']
-# ???
+"""
+for name in names:
+    if is_male[name]:
+        print(f'{name}, пол мужской')
+    else:
+        print(f'{name}, пол женский')
+"""
+
+for name in names:
+    gender = 'мужской' if is_male[name] else 'женский'
+    print(f'{name}, пол {gender}')
+
 
 
 # Задание 4
@@ -40,8 +53,21 @@ groups = [
     ['Вася', 'Маша', 'Саша', 'Женя'],
     ['Оля', 'Петя', 'Гриша'],
 ]
-# ???
 
+print(f'Всего {len(groups)} групп/-ы')
+
+"""
+for group in groups:
+    print(f'Группа {groups.index(group) + 1}: {len(group)} ученика/-ов')
+
+.index() плох тем, что ищет индекс перебором списка, 
+    т.е. добавляет еще один перебор внутрь имеющегося.
+    enumerate() позволяет один раз обратиться к нуному элементу
+    и сразу задать индекс
+"""
+
+for idx, group in enumerate(groups, start=1):
+    print(f'Группа {idx}: {len(group)} ученика/-ов')
 
 # Задание 5
 # Для каждой пары учеников нужно с новой строки перечислить учеников, которые в неё входят
@@ -54,4 +80,11 @@ groups = [
     ['Оля', 'Петя', 'Гриша'],
     ['Вася', 'Маша', 'Саша', 'Женя'],
 ]
-# ???
+
+"""
+for group in groups:
+    print(f"Группа {groups.index(group) + 1}: {', '.join(group)}")
+"""
+
+for indx, group in enumerate(groups, start=1):
+    print(f"Группа {indx}: {', '.join(group)}")
